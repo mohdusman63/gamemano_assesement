@@ -25,16 +25,37 @@ datasource db {
   endYear         Int?
   runtimeMinutes  Int?
   genres          String[]
+  titleCrew       TitleCrew[]
+  titlePrincipals TitlePrincipals[]
+  titleRatings    TitleRatings[]
 }
 
 model TitleCrew {
-  id          String    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   tconst      String    @unique
   directors   String[]
   writers     String[]
   title       Title     @relation(fields: [tconst], references: [tconst])
 }
 
+model TitlePrincipals {
+  id          Int       @id @default(autoincrement())
+  tconst      String     @unique 
+  ordering    Int       
+  nconst      String    
+  category    String    
+  job         String?   
+  characters  String?  
+   title       Title     @relation(fields: [tconst], references: [tconst])
+}
+model TitleRatings {
+  id             Int      @id @default(autoincrement())
+  tconst         String   @unique 
+  averageRating  Float   
+  numVotes       Int      
+  title       Title     @relation(fields: [tconst], references: [tconst])
+
+}
 
 model User {
   id    Int     @id @default(autoincrement())
