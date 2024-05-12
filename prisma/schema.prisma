@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+  model Title {
+  id              Int    @id @default(autoincrement())
+  tconst          String    @unique
+  titleType       String
+  primaryTitle    String
+  originalTitle   String
+  isAdult         Boolean
+  startYear       Int       @default(0)
+  endYear         Int?
+  runtimeMinutes  Int?
+  genres          String[]
+}
+
+model TitleCrew {
+  id          String    @id @default(autoincrement())
+  tconst      String    @unique
+  directors   String[]
+  writers     String[]
+  title       Title     @relation(fields: [tconst], references: [tconst])
+}
+
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  password String
+
+}
+
